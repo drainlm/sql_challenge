@@ -63,7 +63,11 @@ REFERENCES "employees" ("emp_no");
 ALTER TABLE "employees" ADD CONSTRAINT "fk_employees_emp_title_id" FOREIGN KEY("emp_title_id")
 REFERENCES "titles" ("title_id");
 
+-- There was an encoding issue with the departments.csv and the below too lines corrected the issue. 
+--However, another way to resolve the issue was by saving the csv as UTF-8 CSV 
 UPDATE departments SET dept_no = replace(dept_no, '"', ''); 
+
+UPDATE departments SET dept_name = replace(dept_name, '"', ''); 
 
 ALTER TABLE "dept_manager" ADD CONSTRAINT "fk_dept_manager_dept_no" FOREIGN KEY ("dept_no")
 REFERENCES "departments" ("dept_no");
