@@ -1,31 +1,20 @@
 # sql_challenge README
 
-It's been two weeks since you were hired as a new data engineer at Pewlett Hackard (a fictional company). Your first major task is to do a research project about people whom the company employed during the 1980s and 1990s. All that remains of the employee database from that period are six CSV files.
-
-For this project, you'll design the tables to hold the data from the
-CSV files, import the CSV files into a SQL database, and then answer
-questions about the data. That is, you'll perform data modeling, data
-engineering, and data analysis, respectively.
-
 ### Data Modeling
 
-Inspect the CSV files, and then sketch an Entity Relationship Diagram of
- the tables. To create the sketch, feel free to use a tool like [QuickDBD](http://www.quickdatabasediagrams.com)[
-](http://www.quickdatabasediagrams.com)
+Using the 6 CSV files I was provided (departments.csv, dept_emp.csv, dept_manager.csv, employees.csv, salaries.csv, and titles.csv), I sketched an Entity Relationship Diagram (ERD) of the tables using [QuickDBD](http://www.quickdatabasediagrams.com).
+
+![1677457590465](image/README/1677457590465.png)
 
 ### Data Engineering
 
-1. Use the provided information to create a table schema for each of the six CSV files. Be sure to do the following:
+I created a table schema (EmployeeSQLTableSchemata.sql) for the CSV files ensuring to specify the data types, primary keys (dept_emp and dept_manager required composite keys), foreign keys, and other constraints. I created the tables in the correct order to handle the foreign keys and then imported each CSV to the corresponding SQL table. 
 
-* Remember to specify the data types, primary keys, foreign keys, and other constraints.
-* For the primary keys, verify that the column is unique. Otherwise, create a [composite key](https://en.wikipedia.org/wiki/Compound_key)
-* [
-  **Links to an external site.**](https://en.wikipedia.org/wiki/Compound_key), which takes two primary keys to uniquely identify a row.
-* Be sure to create the tables in the correct order to handle the foreign keys.
-
-1. Import each CSV file into its corresponding SQL table.
+One issue I ran into was dept_emp and dept_manager was getting a foreign key constraint error when linking to departments. I inspected the CSVs and didn't see an issue. I then select * from departments and saw there were double quotes around each dept_no and dept_name. I removed the foreign key constraint for dept_emp and dept_manager and select * from them and saw they did not have any quotes. So I updated departments to replace '"' with ' '. This corrected the issue. Upon further inspection of the CSV encoding I found that by saving departments.csv as UTF-8 csv this could also solve the issue. This is commented in the TableSchema as well. 
 
 ### Data Analysis
+
+I then performed the following queries (EmployeeSQLQueries.sql) on the database:
 
 1. List the employee number, last name, first name, sex, and salary of each employee.
 2. List the first name, last name, and hire date for the employees who were hired in 1986.
